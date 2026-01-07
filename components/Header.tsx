@@ -6,10 +6,9 @@ interface HeaderProps {
   view: AppView;
   participantCount: number;
   winnerCount: number;
-  onReset: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ view, participantCount, winnerCount, onReset }) => {
+const Header: React.FC<HeaderProps> = ({ view, participantCount, winnerCount }) => {
   const getHeaderTitle = () => {
     switch(view) {
       case AppView.LOTTERY: return '盛典抽奖现场';
@@ -40,23 +39,14 @@ const Header: React.FC<HeaderProps> = ({ view, participantCount, winnerCount, on
       <div className="flex items-center gap-8">
         <div className="flex gap-4">
             <div className="px-4 py-1.5 momentum-glass rounded-full border-white/5 flex items-center gap-2">
-                <span className="text-[8px] font-black text-white/30 uppercase tracking-widest">Pool</span>
+                <span className="text-[8px] font-black text-white/30 uppercase tracking-widest">池内</span>
                 <span className="text-xs font-black text-white">{participantCount}</span>
             </div>
             <div className="px-4 py-1.5 momentum-glass rounded-full border-white/5 flex items-center gap-2">
-                <span className="text-[8px] font-black text-white/30 uppercase tracking-widest">Drawn</span>
+                <span className="text-[8px] font-black text-white/30 uppercase tracking-widest">已抽</span>
                 <span className="text-xs font-black text-[#d4af37]">{winnerCount}</span>
             </div>
         </div>
-
-        <button 
-          onClick={onReset}
-          className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded-full border border-white/10 group transition-all"
-        >
-          <svg className="w-4 h-4 text-white/20 group-hover:text-white transition-transform group-hover:rotate-180 duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-        </button>
       </div>
     </header>
   );

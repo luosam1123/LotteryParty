@@ -60,20 +60,21 @@ const LotteryScreen: React.FC<LotteryScreenProps> = ({ pool, winners, onWinnersD
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
+  // 动态缩放配置：确保即便可滚动，首屏比例依然协调
   const gridStyle = useMemo(() => {
     const count = displayParticipants.length || drawCount;
     
     if (count <= 1) return {
-      container: 'grid-cols-1 max-w-sm',
-      card: 'p-6 gap-6',
+      container: 'grid-cols-1 max-w-md',
+      card: 'p-8 gap-6',
       avatar: 'h-64 rounded-[32px]',
-      name: 'text-4xl mt-4',
+      name: 'text-5xl mt-4',
       dept: 'text-sm mt-2'
     };
     
     if (count <= 3) return {
       container: 'grid-cols-3 max-w-5xl gap-8',
-      card: 'p-5 gap-4',
+      card: 'p-6 gap-4',
       avatar: 'h-52 rounded-[28px]',
       name: 'text-2xl mt-3',
       dept: 'text-[10px]'
@@ -81,12 +82,13 @@ const LotteryScreen: React.FC<LotteryScreenProps> = ({ pool, winners, onWinnersD
 
     if (count <= 10) return {
       container: 'grid-cols-2 md:grid-cols-5 max-w-6xl gap-5',
-      card: 'p-3 gap-3',
+      card: 'p-4 gap-3',
       avatar: 'h-36 rounded-[20px]',
       name: 'text-lg mt-2',
       dept: 'text-[9px]'
     };
 
+    // 多人抽取 (如阳光奖 17/20人)
     return {
       container: 'grid-cols-3 md:grid-cols-6 lg:grid-cols-9 max-w-[95vw] gap-4',
       card: 'p-2.5 gap-2',
@@ -136,7 +138,7 @@ const LotteryScreen: React.FC<LotteryScreenProps> = ({ pool, winners, onWinnersD
         </div>
       </div>
 
-      {/* 3. 中奖网格容器 */}
+      {/* 3. 中奖网格容器 (支持滚动) */}
       <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar">
         <div className="min-h-full flex items-center justify-center">
           <div className={`grid w-full justify-items-center items-center pb-12 ${gridStyle.container}`}>

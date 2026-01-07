@@ -11,11 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 升级为更明亮的红金配色 */
             --gala-red-primary: #8E0000;
             --gala-red-bright: #D41616;
             --gala-gold: #FFD700;
-            --gala-gold-warm: #FDE68A;
         }
         body {
             font-family: 'Inter', -apple-system, sans-serif;
@@ -44,7 +42,6 @@
             z-index: -1;
         }
         
-        /* 增加动态流光效果 */
         .gala-stage-bg::after {
             content: "";
             position: absolute;
@@ -61,7 +58,6 @@
 
         .chinese-font { font-family: 'Ma Shan Zheng', cursive; }
         
-        /* 明亮版 Momentum Glass */
         .momentum-glass {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(40px);
@@ -98,12 +94,22 @@
             filter: brightness(1.1);
         }
 
+        /* 自定义滚动条 */
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: rgba(255, 215, 0, 0.3);
             border-radius: 10px;
         }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 215, 0, 0.5);
+        }
+
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-bounce-slow { animation: bounce-slow 3s infinite ease-in-out; }
     </style>
 <script type="importmap">
 {

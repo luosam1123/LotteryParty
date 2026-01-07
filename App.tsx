@@ -8,12 +8,16 @@ import HistoryScreen from './components/HistoryScreen';
 import PrizesScreen from './components/PrizesScreen';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
+import ConfirmModal from './components/ConfirmModal';
 
 const App: React.FC = () => {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [winners, setWinners] = useState<Winner[]>([]);
   const [currentView, setCurrentView] = useState<AppView>(AppView.LOTTERY);
   const [isInitialized, setIsInitialized] = useState(false);
+  
+  // 重置确认状态机：0-隐藏, 1-第一步确认, 2-最终警示确认
+  const [resetStep, setResetStep] = useState<0 | 1 | 2>(0);
 
   useEffect(() => {
     const storedParticipants = localStorage.getItem('webex_lottery_participants');
@@ -54,23 +58,33 @@ const App: React.FC = () => {
     setWinners(prev => [...prev, ...winnersToAdd]);
   }, []);
 
-  const handleReset = useCallback(() => {
-    if (confirm('Confirm reset all data? This cannot be undone.')) {
-      setWinners([]);
-      localStorage.setItem('webex_lottery_winners', JSON.stringify([]));
+  const performReset = () => {
+    setWinners([]);
+    localStorage.removeItem('webex_lottery_winners');
+    setCurrentView(AppView.LOTTERY);
+    setResetStep(0);
+    
+    // 触发一个简单的重置视觉反馈
+    const root = document.getElementById('root');
+    if (root) {
+      root.style.opacity = '0.5';
+      setTimeout(() => root.style.opacity = '1', 100);
     }
-  }, []);
+  };
 
   return (
     <div className="flex h-screen w-full relative select-none bg-transparent overflow-hidden">
-      <Sidebar currentView={currentView} setView={setCurrentView} />
+      <Sidebar 
+        currentView={currentView} 
+        setView={setCurrentView} 
+        onReset={() => setResetStep(1)} 
+      />
 
       <div className="flex-1 flex flex-col relative z-10 overflow-hidden">
         <Header 
           view={currentView} 
           participantCount={availableParticipants.length} 
           winnerCount={winners.length}
-          onReset={handleReset}
         />
 
         <main className="flex-1 overflow-hidden p-6 pt-0">
@@ -89,6 +103,29 @@ const App: React.FC = () => {
         </main>
       </div>
       
+      {/* 自定义确认模态框 */}
+      {resetStep === 1 && (
+        <ConfirmModal 
+          title="准备开始新一轮抽奖？"
+          message="此操作将清空当前所有中奖记录。如果您已经完成了本场抽奖并想开始新的场次，请确认。"
+          confirmText="下一步"
+          cancelText="取消"
+          onConfirm={() => setResetStep(2)}
+          onCancel={() => setResetStep(0)}
+        />
+      )}
+      {resetStep === 2 && (
+        <ConfirmModal 
+          variant="danger"
+          title="🧨 最后的警示"
+          message="数据一旦清空将无法恢复（包括历史喜报和奖品剩余统计）。确定要立即重置吗？"
+          confirmText="确定清空并跳转"
+          cancelText="我再想想"
+          onConfirm={performReset}
+          onCancel={() => setResetStep(0)}
+        />
+      )}
+
       <div className="fixed bottom-6 right-12 opacity-10 pointer-events-none">
         <span className="text-[120px] font-black tracking-tighter text-white">WEBEX</span>
       </div>
