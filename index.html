@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cisco Webex · 2026 Annual Gala</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 升级为更明亮的红金配色 */
+            --gala-red-primary: #8E0000;
+            --gala-red-bright: #D41616;
+            --gala-gold: #FFD700;
+            --gala-gold-warm: #FDE68A;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--gala-red-primary);
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+        #root {
+            height: 100%;
+            width: 100%;
+        }
+        
+        /* 盛典明亮背景：红金渐变叠加 */
+        .gala-stage-bg {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 50% 100%, var(--gala-red-bright) 0%, transparent 60%),
+                radial-gradient(circle at 10% 10%, rgba(255, 215, 0, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 40%),
+                var(--gala-red-primary);
+            z-index: -1;
+        }
+        
+        /* 增加动态流光效果 */
+        .gala-stage-bg::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.05) 50%, transparent 60%);
+            background-size: 300% 300%;
+            animation: light-sweep 10s infinite linear;
+        }
+
+        @keyframes light-sweep {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .chinese-font { font-family: 'Ma Shan Zheng', cursive; }
+        
+        /* 明亮版 Momentum Glass */
+        .momentum-glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .gold-shimmer {
+            background: linear-gradient(135deg, #FFF7AD 0%, #D4AF37 40%, #FFF7AD 60%, #D4AF37 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer-effect 4s linear infinite;
+        }
+        
+        @keyframes shimmer-effect {
+            to { background-position: 200% center; }
+        }
+        
+        .btn-reveal {
+            background: linear-gradient(135deg, #fde68a 0%, #d4af37 100%);
+            color: #4a0000;
+            font-weight: 800;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-reveal:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+</head>
+<body>
+    <div class="gala-stage-bg"></div>
+    <div id="root"></div>
+</body>
+</html>
